@@ -18,18 +18,35 @@ To run this project locally, follow the steps below:
 1. Clone this repository:
    ```bash
    git clone https://github.com/gilangrizkiputra/F-BEE24001186-km7-gil-bankingSystem-ch4.git
+   
 2. Navigation to the project directory:
    ```bash
    cd F-BEE24001186-km7-gil-bankingSystem-ch4
+   
 3. Rename .env.sample to .env and configure it as follows:
    ```bash
    DATABASE_URL=postgresql://<user>:<password>@<host>:<port>/<database>?schema=public
    PORT=your-local-port
    JWT-TOKEN=your-secret-key
+   
 5. Install the necessary dependencies:
    ```bash
    npm install
+   
 6. Run Project
    ```bash
    npm start
+
+## Test Project
+- Run the test:
+  ```bash
+  npm test
+
+## API - Docs
+1. Run the project:
+   ```docs
+   npm start
+3. open a browser and enter the following link:
+   ```docs
+   http://localhost:<your-port>/api-docs/
 
