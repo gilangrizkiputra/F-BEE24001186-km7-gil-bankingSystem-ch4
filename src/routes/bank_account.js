@@ -11,11 +11,11 @@ router.post("/:id/deposit", verifyToken, (req, res) => {bankAccount.depositMoney
 
 router.post("/:id/withdraw", verifyToken, (req, res) => {bankAccount.withdrawMoney(req, res);});
 
-router.get("/", (req, res) => {bankAccount.getAllBankAccounts(req, res);});
+router.get("/", verifyToken, (req, res) => {bankAccount.getAllBankAccounts(req, res);});
 
 router.get("/:id", verifyToken, (req, res) => {bankAccount.getBankAccountById(req, res);});
 
-router.put("/:id", (req, res) => {bankAccount.updateBankAccount(req, res);});
+router.put("/:id", verifyToken, (req, res) => {bankAccount.updateBankAccount(req, res);});
 
 router.delete("/:id", (req, res) => {bankAccount.deleteBankAccount(req, res);});
 
