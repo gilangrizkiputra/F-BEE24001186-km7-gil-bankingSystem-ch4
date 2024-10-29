@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 export class User {
@@ -11,11 +12,13 @@ export class User {
 
   async createUser() {
     try {
+      const encryptedPassword = await bcrypt.hash(this.password, 10);
+
       return await prisma.user.create({
         data: {
           name: this.name,
           email: this.email,
-          password: this.password,
+          password: encryptedPassword,
           profile: {
             create: {
               identityType: this.profile.identityType,

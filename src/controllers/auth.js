@@ -13,12 +13,14 @@ export class AuthController {
         password: joi.string().min(6).required(),
       })
       .validate({ email, password });
+
     if (error) {
       return res.status(400).json({
         status: "fail",
         message: error.details[0].message,
       });
     }
+    
     try {
       const token = await this.auth.login(email, password);
       res.status(200).json({
