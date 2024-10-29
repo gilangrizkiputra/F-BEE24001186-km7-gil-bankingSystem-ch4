@@ -11,6 +11,9 @@ const doc = {
 const outputFile = "./swagger-output.json";
 const routes = ["./index.js"];
 
-swaggerAutogen(outputFile, routes, doc).then(() => {
-  require("./index.js");
-});
+// const generateSwagger = async () => {
+//   await swaggerAutogen(outputFile, routes, doc);
+//   await import("./index.js");
+// };
+
+// generateSwagger();
