@@ -1,5 +1,6 @@
 import { PrismaClient }  from "@prisma/client";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 export class AuthService {
@@ -13,10 +14,14 @@ export class AuthService {
         email: email,
       },
     });
+
     if (!user) {
       throw new Error("User not found");
     }
-    if (user.password !== password) {
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
       throw new Error("Invalid password");
     }
 

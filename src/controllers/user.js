@@ -28,7 +28,7 @@ export class UserController {
     const { name, email, password, profile } = req.body;
     const userInstance = new User(name, email, password, profile);
     try {
-      const user = await userInstance.createUser(req.body);
+      const user = await userInstance.createUser();
       res.status(201).json({
         message: "User created successfully",
         data: user,

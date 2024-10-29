@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { AuthService } from "../../services/auth.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 jest.mock("@prisma/client");
 jest.mock("jsonwebtoken");
@@ -41,7 +42,7 @@ describe("Test_AuthService", () => {
       const mockUser = {
         id: 1,
         email: "6iFb0@example.com",
-        password: "correctPassword",
+        password: await bcrypt.hash("password123", 10),
         name: "John Doe",
       };
       mockPrisma.user.findUnique.mockResolvedValueOnce(mockUser);
@@ -61,7 +62,7 @@ describe("Test_AuthService", () => {
       const mockUser = {
         id: 1,
         email: "6iFb0@example.com",
-        password: "password123",
+        password: await bcrypt.hash("password123", 10),
         name: "John Doe",
       };
       mockPrisma.user.findUnique.mockResolvedValueOnce(mockUser);
@@ -71,7 +72,6 @@ describe("Test_AuthService", () => {
 
       const authService = new AuthService(mockPrisma);
 
-      // Act
       const result = await authService.login(
         "6iFb0@example.com",
         "password123"
