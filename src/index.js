@@ -1,8 +1,6 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const userRoutes = require("./routes/user");
-const accountRoutes = require("./routes/bank_account");
-const transactionRoutes = require("./routes/transaction");
+import express from "express";
+import dotenv from "dotenv";
+import routes from "./routes/index.js";
 const app = express();
 
 dotenv.config();
@@ -10,11 +8,7 @@ const PORT = process.env.PORT;
 function main() {
   app.use(express.json());
 
-  app.use("/api/v1/users", userRoutes);
-
-  app.use("/api/v1/accounts", accountRoutes);
-
-  app.use("/api/v1/transactions", transactionRoutes);
+  app.use(routes);
 
   app.use((err, req, res, next) => {
     console.error(err.stack);
