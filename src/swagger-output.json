@@ -22,6 +22,13 @@
       "name": "Auth"
     }
   ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
   "paths": {
     "/api/v1/users/": {
       "get": {
@@ -30,10 +37,38 @@
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": 1
+                  },
+                  "name": {
+                    "example": "example name"
+                  },
+                  "email": {
+                    "example": "example@email.com"
+                  },
+                  "password": {
+                    "example": "example123"
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       }
@@ -53,13 +88,53 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": 1
+                  },
+                  "name": {
+                    "example": "example name"
+                  },
+                  "email": {
+                    "example": "example@email.com"
+                  },
+                  "profile": {
+                    "example": {
+                      "identityType": "example",
+                      "identityNumber": "432424234234",
+                      "address": "example address"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Not Found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       },
@@ -102,13 +177,50 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "example name"
+                  },
+                  "email": {
+                    "example": "example@email.com"
+                  },
+                  "profile": {
+                    "example": {
+                      "identityType": "example",
+                      "identityNumber": "432424234234",
+                      "address": "example address"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bad Request"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       }
@@ -143,26 +255,106 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bank Account created successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "example": 1
+                    },
+                    "bankName": {
+                      "example": "Bank A"
+                    },
+                    "bankAccountNumber": {
+                      "example": "4324324324"
+                    },
+                    "balance": {
+                      "example": 1000
+                    },
+                    "userId": {
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bad Request"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       },
       "get": {
         "tags": ["Bank Account"],
         "summary": "Get All Bank Accounts",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": 1
+                  },
+                  "bankName": {
+                    "example": "Bank A"
+                  },
+                  "bankAccountNumber": {
+                    "example": "4324324324"
+                  },
+                  "balance": {
+                    "example": 1000
+                  },
+                  "userId": {
+                    "example": 1
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       }
@@ -171,6 +363,11 @@
       "get": {
         "tags": ["Bank Account"],
         "summary": "Get Bank Account by Id",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "description": "",
         "parameters": [
           {
@@ -182,19 +379,75 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": 1
+                },
+                "bankName": {
+                  "example": "Bank A"
+                },
+                "bankAccountNumber": {
+                  "example": "4324324324"
+                },
+                "balance": {
+                  "example": 1000
+                },
+                "userId": {
+                  "example": 1
+                },
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "example": "example name"
+                    },
+                    "profile": {
+                      "example": {
+                        "identityType": "example",
+                        "identityNumber": "432424234234",
+                        "address": "example address"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bank Account not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       },
       "put": {
         "tags": ["Bank Account"],
         "summary": "Update Bank Account",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "description": "",
         "parameters": [
           {
@@ -224,16 +477,68 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bank Account updated successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "example": 1
+                    },
+                    "bankName": {
+                      "example": "Bank A"
+                    },
+                    "bankAccountNumber": {
+                      "example": "4324324324"
+                    },
+                    "balance": {
+                      "example": 1000
+                    },
+                    "userId": {
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bad Request"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bank Account not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       },
@@ -251,10 +556,46 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bank Account deleted successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "example": 1
+                    },
+                    "bankName": {
+                      "example": "Bank A"
+                    },
+                    "bankAccountNumber": {
+                      "example": "4324324324"
+                    },
+                    "balance": {
+                      "example": 1000
+                    },
+                    "userId": {
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       }
@@ -263,6 +604,11 @@
       "put": {
         "tags": ["Bank Account"],
         "summary": "Deposit to Bank Account",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "description": "",
         "parameters": [
           {
@@ -286,16 +632,68 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bank Account deposit successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "example": 1
+                    },
+                    "bankName": {
+                      "example": "Bank A"
+                    },
+                    "bankAccountNumber": {
+                      "example": "4324324324"
+                    },
+                    "balance": {
+                      "example": 1000
+                    },
+                    "userId": {
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bad Request"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bank Account not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       }
@@ -304,6 +702,11 @@
       "put": {
         "tags": ["Bank Account"],
         "summary": "Withdraw from Bank Account",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "description": "",
         "parameters": [
           {
@@ -327,16 +730,68 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bank Account withdraw successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "example": 1
+                    },
+                    "bankName": {
+                      "example": "Bank A"
+                    },
+                    "bankAccountNumber": {
+                      "example": "4324324324"
+                    },
+                    "balance": {
+                      "example": 1000
+                    },
+                    "userId": {
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bad Request"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bank Account not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       }
@@ -368,13 +823,54 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Transaction successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "example": 1
+                    },
+                    "amount": {
+                      "example": 1000
+                    },
+                    "sourceAccountId": {
+                      "example": 1
+                    },
+                    "destinationAccountId": {
+                      "example": 2
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bad Request"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       },
@@ -384,10 +880,38 @@
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": 1
+                  },
+                  "amount": {
+                    "example": 1000
+                  },
+                  "sourceAccountId": {
+                    "example": 1
+                  },
+                  "destinationAccountId": {
+                    "example": 2
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       }
@@ -407,13 +931,86 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": 1
+                },
+                "amount": {
+                  "example": 1000
+                },
+                "sourceAccountId": {
+                  "example": 1
+                },
+                "destinationAccountId": {
+                  "example": 2
+                },
+                "sourceAccount": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "example": 1
+                    },
+                    "bankName": {
+                      "example": "Bank A"
+                    },
+                    "bankAccountNumber": {
+                      "example": "4324324324"
+                    },
+                    "balance": {
+                      "example": 1000
+                    },
+                    "userId": {
+                      "example": 1
+                    }
+                  }
+                },
+                "destinationAccount": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "example": 1
+                    },
+                    "bankName": {
+                      "example": "Bank A"
+                    },
+                    "bankAccountNumber": {
+                      "example": "4324324324"
+                    },
+                    "balance": {
+                      "example": 1000
+                    },
+                    "userId": {
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Transaction not found"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       }
@@ -452,13 +1049,61 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "User register successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "example": 1
+                    },
+                    "name": {
+                      "example": "example name"
+                    },
+                    "email": {
+                      "example": "example@email.com"
+                    },
+                    "password": {
+                      "example": "bcrypt"
+                    },
+                    "profile": {
+                      "example": {
+                        "identityType": "example",
+                        "identityNumber": "4324234324324",
+                        "address": "example address"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Bad Request"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       }
@@ -486,14 +1131,35 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "success"
-          },
-          "400": {
-            "description": "fail"
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "example": "token"
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "example": "Internal Server Error"
+                }
+              }
+            }
           }
         }
       }
