@@ -69,7 +69,7 @@ describe("Test_userController", () => {
 
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith({
-        message: "User created successfully",
+        message: "User registered successfully",
         data: req.body,
       });
       expect(mockCreateUser).toHaveBeenCalled();

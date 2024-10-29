@@ -8,46 +8,25 @@
   "host": "localhost:3000",
   "basePath": "/",
   "schemes": ["http"],
+  "tags": [
+    {
+      "name": "User"
+    },
+    {
+      "name": "Bank Account"
+    },
+    {
+      "name": "Transaction"
+    },
+    {
+      "name": "Auth"
+    }
+  ],
   "paths": {
     "/api/v1/users/": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                },
-                "profile": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
       "get": {
+        "tags": ["User"],
+        "summary": "Get All Users",
         "description": "",
         "responses": {
           "200": {
@@ -61,6 +40,8 @@
     },
     "/api/v1/users/{id}": {
       "get": {
+        "tags": ["User"],
+        "summary": "Get User by Id",
         "description": "",
         "parameters": [
           {
@@ -83,6 +64,8 @@
         }
       },
       "put": {
+        "tags": ["User"],
+        "summary": "Update User",
         "description": "",
         "parameters": [
           {
@@ -107,7 +90,11 @@
                   "example": "any"
                 },
                 "profile": {
-                  "example": "any"
+                  "example": {
+                    "identityType": "any",
+                    "identityNumber": "any",
+                    "address": "any"
+                  }
                 }
               }
             }
@@ -128,6 +115,8 @@
     },
     "/api/v1/accounts/": {
       "post": {
+        "tags": ["Bank Account"],
+        "summary": "Create Bank Account",
         "description": "",
         "parameters": [
           {
@@ -165,6 +154,8 @@
         }
       },
       "get": {
+        "tags": ["Bank Account"],
+        "summary": "Get All Bank Accounts",
         "description": "",
         "responses": {
           "200": {
@@ -178,6 +169,8 @@
     },
     "/api/v1/accounts/{id}": {
       "get": {
+        "tags": ["Bank Account"],
+        "summary": "Get Bank Account by Id",
         "description": "",
         "parameters": [
           {
@@ -200,6 +193,8 @@
         }
       },
       "put": {
+        "tags": ["Bank Account"],
+        "summary": "Update Bank Account",
         "description": "",
         "parameters": [
           {
@@ -243,6 +238,8 @@
         }
       },
       "delete": {
+        "tags": ["Bank Account"],
+        "summary": "Delete Bank Account",
         "description": "",
         "parameters": [
           {
@@ -264,6 +261,8 @@
     },
     "/api/v1/accounts/{id}/deposit": {
       "put": {
+        "tags": ["Bank Account"],
+        "summary": "Deposit to Bank Account",
         "description": "",
         "parameters": [
           {
@@ -303,6 +302,8 @@
     },
     "/api/v1/accounts/{id}/withdraw": {
       "put": {
+        "tags": ["Bank Account"],
+        "summary": "Withdraw from Bank Account",
         "description": "",
         "parameters": [
           {
@@ -342,6 +343,8 @@
     },
     "/api/v1/transactions/": {
       "post": {
+        "tags": ["Transaction"],
+        "summary": "Create Transaction",
         "description": "",
         "parameters": [
           {
@@ -376,6 +379,8 @@
         }
       },
       "get": {
+        "tags": ["Transaction"],
+        "summary": "Get All Transactions",
         "description": "",
         "responses": {
           "200": {
@@ -389,6 +394,8 @@
     },
     "/api/v1/transactions/{id}": {
       "get": {
+        "tags": ["Transaction"],
+        "summary": "Get Transaction by Id",
         "description": "",
         "parameters": [
           {
@@ -411,8 +418,55 @@
         }
       }
     },
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register User",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "profile": {
+                  "example": {
+                    "identityType": "any",
+                    "identityNumber": "any",
+                    "address": "any"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/v1/auth/login": {
       "post": {
+        "tags": ["Auth"],
+        "summary": "Login User",
         "description": "",
         "parameters": [
           {

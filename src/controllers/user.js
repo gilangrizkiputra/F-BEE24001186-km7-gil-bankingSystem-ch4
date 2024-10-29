@@ -30,7 +30,7 @@ export class UserController {
     try {
       const user = await userInstance.createUser();
       res.status(201).json({
-        message: "User created successfully",
+        message: "User registered successfully",
         data: user,
       });
     } catch (error) {
