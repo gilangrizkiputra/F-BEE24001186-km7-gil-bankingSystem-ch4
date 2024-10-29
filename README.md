@@ -1,6 +1,6 @@
 # Banking System
 
-This project is a simple banking system created as part of Chapter 4 assignment for the F-BEE24001186 KM7 module. It demonstrates basic banking operations like creating accounts, deposits, withdrawals, and balance checks.
+This project is a simple banking system created as part of Chapter 4 and  5 assignment for the F-BEE24001186 KM7 module. It demonstrates basic banking operations like creating accounts, deposits, withdrawals, and balance checks.
 
 ## Prerequisites
 
