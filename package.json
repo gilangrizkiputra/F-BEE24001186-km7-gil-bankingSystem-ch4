@@ -4,7 +4,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
+    "postinstall": "prisma generate",
+    "deploy": "gcloud app deploy",
     "test": "jest --coverage",
     "coverage": "jest --coverage --coverageReporters=lcov",
     "lint": "eslint .",

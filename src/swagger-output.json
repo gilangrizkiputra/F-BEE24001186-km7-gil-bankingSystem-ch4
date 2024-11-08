@@ -73,6 +73,87 @@
         }
       }
     },
+    "/api/v1/users/{id}/image": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Upload User Profile Image",
+        "description": "Uploads a profile image for a specific user.",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json", "multipart/form-data"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID of the user to upload the image for"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "required": true,
+            "type": "file",
+            "description": "Image file to upload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User image updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User image updated successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 10 },
+                    "title": {
+                      "type": "string",
+                      "example": "Updated photo profile for user 10"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Profile photo updated successfully"
+                    },
+                    "url": {
+                      "type": "string",
+                      "example": "https://ik.imagekit.io/path/to/image.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Image upload failed",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Image upload failed"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User not found or update failed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/users/{id}": {
       "get": {
         "tags": ["User"],
