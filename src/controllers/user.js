@@ -108,8 +108,7 @@ export class UserController {
       res.json({
         message: "User image updated successfully",
         data: {
-          title: `Photo profile for user ${id}`,
-          description: "photo profile user successs to upload and update",
+          id: user.id,
           url: imageUrl,
         },
       });
