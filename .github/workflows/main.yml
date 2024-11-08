@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: ['18']
 
     steps:
     - name: Checkout code
@@ -33,10 +33,18 @@ jobs:
 
     - name: Run tests
       run: npm test
+      env:
+        IMAGEKIT_PUBLIC_KEY: ${{ secrets.IMAGEKIT_PUBLIC_KEY }}
+        IMAGEKIT_SECRET_KEY: ${{ secrets.IMAGEKIT_SECRET_KEY }}
+        IMAGEKIT_URL_ENDPOINT: ${{ secrets.IMAGEKIT_URL_ENDPOINT }}
 
     - name: Generate coverage report
       run: npm run coverage
-    
+      env:
+        IMAGEKIT_PUBLIC_KEY: ${{ secrets.IMAGEKIT_PUBLIC_KEY }}
+        IMAGEKIT_SECRET_KEY: ${{ secrets.IMAGEKIT_SECRET_KEY }}
+        IMAGEKIT_URL_ENDPOINT: ${{ secrets.IMAGEKIT_URL_ENDPOINT }}
+       
     - name: Upload results to Codecov
       uses: codecov/codecov-action@v4
       with:
