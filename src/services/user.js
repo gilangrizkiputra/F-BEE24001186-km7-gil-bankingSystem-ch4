@@ -89,4 +89,24 @@ export class User {
       throw new Error("User not found or update failed");
     }
   }
+
+  async uploadImage(id, image, fileId) {
+    try {
+      return await prisma.user.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          profile: {
+            update: {
+              imageProfile: image,
+              imageFileId: fileId,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      throw new Error("User not found or update failed");
+    }
+  }
 }

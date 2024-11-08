@@ -1,5 +1,6 @@
 import { User } from "../services/user.js";
 import joi from "joi";
+import imagekit from "../utils/imagekit.js";
 
 const userSchema = joi.object({
   name: joi.string().min(3).max(30).required(),
@@ -82,5 +83,38 @@ export class UserController {
       res.status(500).json({ message: error.message });
     }
   }
-}
 
+  async uploadImage(req, res) {
+    const { id } = req.params;
+    const file = req.file;
+
+    if (!file) {
+      return res.status(400).json({ message: "Image upload failed" });
+    }
+
+    try {
+      const base64File = file.buffer.toString("base64");
+
+      const uploadResponse = await imagekit.upload({
+        file: base64File,
+        fileName: `user_${id}_${Date.now()}`,
+        folder: "/user_images",
+      });
+
+      const imageUrl = uploadResponse.url;
+
+      const user = await this.userInstance.uploadImage(id, imageUrl);
+
+      res.json({
+        message: "User image updated successfully",
+        data: {
+          title: `Photo profile for user ${id}`,
+          description: "photo profile user successs to upload and update",
+          url: imageUrl,
+        },
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+}
