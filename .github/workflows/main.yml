@@ -33,11 +33,17 @@ jobs:
 
     - name: Run test
     - run: npm test
+
+    - name: Generate coverage report
+    - run: npm run coverage
     
     - name: Upload results to Codecov
     - uses: codecov/codecov-action@v4
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage/lcov.info 
+        flags: unittests
+        fail_ci_if_error: true
     - run: npm run coverage
 
     - name: Run ESlint
