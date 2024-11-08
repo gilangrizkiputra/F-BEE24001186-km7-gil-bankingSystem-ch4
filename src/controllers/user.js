@@ -106,7 +106,7 @@ export class UserController {
       const user = await this.userInstance.uploadImage(id, imageUrl);
 
       res.json({
-        message: "User image updated successfully",
+        message: "User image updated successfullyy",
         data: {
           id: user.id,
           title: `updated photo profile ${user.name}`,
