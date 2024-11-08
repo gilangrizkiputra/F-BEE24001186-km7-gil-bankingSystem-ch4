@@ -9,8 +9,32 @@ on:
       - 'main'
 
 jobs:
-  build:
+  lint:
+    name: ESLint
+    runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: ['18']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run ESLint
+      run: npm run lint
+  
+  test:
+    name: Test
     runs-on: ubuntu-latest
 
     strategy:
@@ -51,6 +75,3 @@ jobs:
         files: ./coverage/lcov.info 
         flags: unittests
         fail_ci_if_error: true
-
-    - name: Run ESLint
-      run: npm run lint
