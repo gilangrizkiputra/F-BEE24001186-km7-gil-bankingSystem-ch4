@@ -109,6 +109,8 @@ export class UserController {
         message: "User image updated successfully",
         data: {
           id: user.id,
+          title: `updated photo profile ${user.name}`,
+          description: `successfully updated photo profile ${user.name}`,
           url: imageUrl,
         },
       });
