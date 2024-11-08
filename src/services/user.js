@@ -90,7 +90,7 @@ export class User {
     }
   }
 
-  async uploadImage(id, image, fileId) {
+  async uploadImage(id, image) {
     try {
       return await prisma.user.update({
         where: {
@@ -100,7 +100,6 @@ export class User {
           profile: {
             update: {
               imageProfile: image,
-              imageFileId: fileId,
             },
           },
         },
