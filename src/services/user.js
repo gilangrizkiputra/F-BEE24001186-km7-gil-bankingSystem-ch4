@@ -32,7 +32,7 @@ export class User {
         },
       });
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error("Internal server error");
     }
   }
 
@@ -44,7 +44,7 @@ export class User {
         },
       });
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error("Internal server error");
     }
   }
 
