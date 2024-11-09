@@ -10,6 +10,8 @@
   "scripts": {
     "postinstall": "prisma generate",
     "deploy": "gcloud app deploy",
+    "migrate": "npx prisma migrate deploy",
+    "seed": "node prisma/seed.js",
     "test": "jest --coverage",
     "coverage": "jest --coverage --coverageReporters=lcov",
     "lint": "eslint .",
