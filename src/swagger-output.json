@@ -2,12 +2,12 @@
   "openapi": "3.0.0",
   "info": {
     "title": "API Documentation",
-    "description": "API Documentation for the Banking System",
+    "description": "API Documentation for Bank Account",
     "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "https://ivory-infinity-441116-s0.as.r.appspot.com"
+      "url": "https://ivory-infinity-441116-s0.as.r.appspot.com/"
     }
   ],
   "components": {
@@ -43,13 +43,13 @@
               "schema": {
                 "type": "object",
                 "example": {
-                  "name": "user2",
-                  "email": "user2@gmail.com",
-                  "password": "user2222",
+                  "name": "user3",
+                  "email": "user3@gmail.com",
+                  "password": "user3333",
                   "profile": {
                     "identityType": "KTP",
-                    "identityNumber": "5324324324",
-                    "address": "JL. address 2"
+                    "identityNumber": "532434424324",
+                    "address": "JL. address 3"
                   }
                 }
               }
@@ -312,10 +312,20 @@
         }
       }
     },
-    "/api/v1/users/2": {
+    "/api/v1/users/{id}": {
       "get": {
         "tags": ["Users"],
         "summary": "Get Users By Id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -421,6 +431,16 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -508,7 +528,7 @@
         }
       }
     },
-    "/api/v1/users/2/image": {
+    "/api/v1/users/{id}/image": {
       "put": {
         "tags": ["Users"],
         "summary": "Update User Profile Image",
@@ -527,6 +547,16 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -791,7 +821,7 @@
         }
       }
     },
-    "/api/v1/accounts/2/deposit": {
+    "/api/v1/accounts/{id}/deposit": {
       "post": {
         "tags": ["BankAccount"],
         "summary": "Deposit To Bank Account",
@@ -810,6 +840,16 @@
         "security": [
           {
             "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -892,7 +932,7 @@
         }
       }
     },
-    "/api/v1/accounts/2/withdraw": {
+    "/api/v1/accounts/{id}/withdraw": {
       "post": {
         "tags": ["BankAccount"],
         "summary": "Withdraw To Bank Account",
@@ -911,6 +951,16 @@
         "security": [
           {
             "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -993,13 +1043,23 @@
         }
       }
     },
-    "/api/v1/accounts/2": {
+    "/api/v1/accounts/{id}": {
       "get": {
         "tags": ["BankAccount"],
         "summary": "Get Bank Account By Id",
         "security": [
           {
             "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -1109,6 +1169,16 @@
             "bearerAuth": []
           }
         ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1187,15 +1257,23 @@
             }
           }
         }
-      }
-    },
-    "/api/v1/accounts/3": {
+      },
       "delete": {
         "tags": ["BankAccount"],
         "summary": "Delete Bank Account",
         "security": [
           {
             "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -1443,10 +1521,20 @@
         }
       }
     },
-    "/api/v1/transactions/1": {
+    "/api/v1/transactions/{id}": {
       "get": {
         "tags": ["Transaction"],
         "summary": "Get Transaction By Id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
