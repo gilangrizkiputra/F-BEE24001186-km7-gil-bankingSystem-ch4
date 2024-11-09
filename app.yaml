@@ -8,8 +8,5 @@ runtime_config:
 manual_scaling:
   instances: 1
 
-includes:
-  - env.yaml
-
 beta_settings:
-  cloud_sql_instances: ${CLOUD_SQL_INSTANCES}
+  cloud_sql_instances: "ivory-infinity-441116-s0:asia-southeast1:db-challenge-binar"

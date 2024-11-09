@@ -32,7 +32,7 @@ export class User {
         },
       });
     } catch (error) {
-      throw new Error("Internal server error");
+      throw new Error(error.message);
     }
   }
 
@@ -44,7 +44,7 @@ export class User {
         },
       });
     } catch (error) {
-      throw new Error("Internal server error");
+      throw new Error(error.message);
     }
   }
 
@@ -64,6 +64,7 @@ export class User {
   }
 
   async updateUser(id) {
+    const encryptedPassword = await bcrypt.hash(this.password, 10);
     try {
       return await prisma.user.update({
         where: {
@@ -72,7 +73,7 @@ export class User {
         data: {
           name: this.name,
           email: this.email,
-          password: this.password,
+          password: encryptedPassword,
           profile: {
             update: {
               identityType: this.profile.identityType,
