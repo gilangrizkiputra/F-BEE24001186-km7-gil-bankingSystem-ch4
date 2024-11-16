@@ -28,8 +28,19 @@ export class UserController {
 
     const { name, email, password, profile } = req.body;
     const userInstance = new User(name, email, password, profile);
+
     try {
       const user = await userInstance.createUser();
+
+      if (res.locals.io) {
+        res.locals.io.emit("registration_success", {
+          message: "User registered successfully",
+          user: { name, email },
+        });
+      } else {
+        console.error("Socket.IO instance not found!");
+      }
+
       res.status(201).json({
         message: "User registered successfully",
         data: user,

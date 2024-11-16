@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
 const prisma = new PrismaClient();
+import dotenv from "dotenv";
+dotenv.config();
 
 export class User {
   constructor(name, email, password, profile) {
@@ -8,8 +11,14 @@ export class User {
     this.email = email;
     this.password = password;
     this.profile = profile;
+    this.transporter = nodemailer.createTransport({
+      service: process.env.EMAIL_SERVICE,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
   }
-
   async createUser() {
     try {
       const encryptedPassword = await bcrypt.hash(this.password, 10);
