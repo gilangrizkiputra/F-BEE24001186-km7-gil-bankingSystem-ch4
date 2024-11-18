@@ -8,19 +8,13 @@
   <body>
     <h1>WebSocket Notifications</h1>
     <div id="notifications"></div>
-
-    <!-- Sertakan Socket.IO client -->
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-
     <script>
-      // Gantilah "localhost:2000" dengan alamat server Anda jika perlu
       const socket = io("http://localhost:2000");
 
-      // Mendengarkan event 'registration_success'
       socket.on("registration_success", (data) => {
         const notificationsDiv = document.getElementById("notifications");
 
-        // Menampilkan notifikasi yang diterima
         const messageElement = document.createElement("p");
         messageElement.textContent = `${data.message} for user: ${data.user.name} (${data.user.email})`;
         notificationsDiv.appendChild(messageElement);

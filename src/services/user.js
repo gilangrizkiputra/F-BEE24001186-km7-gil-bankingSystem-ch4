@@ -1,8 +1,15 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
-const prisma = new PrismaClient();
+import Handlebars from "handlebars";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const prisma = new PrismaClient();
 dotenv.config();
 
 export class User {
@@ -23,7 +30,7 @@ export class User {
     try {
       const encryptedPassword = await bcrypt.hash(this.password, 10);
 
-      return await prisma.user.create({
+      const newUser = await prisma.user.create({
         data: {
           name: this.name,
           email: this.email,
@@ -40,6 +47,20 @@ export class User {
           profile: true,
         },
       });
+
+      const templatePath = path.resolve(__dirname,"../views/registrationview.html");
+      const source = fs.readFileSync(templatePath, "utf-8");
+      const template = Handlebars.compile(source);
+      const htmlContent = template();
+
+      await this.transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: newUser.email,
+        subject: "Registration Successful",
+        html: htmlContent,
+      });
+
+      return newUser;
     } catch (error) {
       throw new Error("Internal server error");
     }
