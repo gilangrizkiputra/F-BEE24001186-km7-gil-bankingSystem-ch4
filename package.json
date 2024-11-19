@@ -15,10 +15,10 @@
     "test": "jest --coverage",
     "coverage": "jest --coverage --coverageReporters=lcov",
     "lint": "eslint .",
-    "start": "node src/index.js",
+    "start": "node src/index.js && npm run sentry:sourcemaps",
     "swagger": "node src/swagger.js",
-    "dev": "nodemon ./src/index.js && npm run sentry:sourcemaps",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org personal-z22 --project binar-challenge7 ./src/utils && sentry-cli sourcemaps upload --org personal-z22 --project binar-challenge7 ./src/utils"
+    "dev": "nodemon ./src/index.js",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org personal-z22 --project binar-challenge ./src/utils && sentry-cli sourcemaps upload --org personal-z22 --project binar-challenge ./src/utils"
   },
   "keywords": [],
   "author": "",

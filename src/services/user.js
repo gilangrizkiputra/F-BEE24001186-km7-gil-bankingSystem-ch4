@@ -48,7 +48,10 @@ export class User {
         },
       });
 
-      const templatePath = path.resolve(__dirname,"../views/registrationview.html");
+      const templatePath = path.resolve(
+        __dirname,
+        "../views/registrationView.html"
+      );
       const source = fs.readFileSync(templatePath, "utf-8");
       const template = Handlebars.compile(source);
       const htmlContent = template();

@@ -1,8 +1,8 @@
+import "./utils/instrument.js";
 import express from "express";
 import dotenv from "dotenv";
 import routes from "./routes/index.js";
 import * as Sentry from "@sentry/node";
-// import { nodeProfilingIntegration } from "@sentry/profiling-node";
 import morgan from "morgan";
 import http from "http";
 import path from "path";
@@ -21,11 +21,17 @@ function main() {
     next();
   });
 
-  app.use(express.static(path.join(process.cwd(), "src/views")));
+  app.use("/notifications", express.static(path.join(process.cwd(), "src/views")));
+  
   app.use(morgan("combined"));
+  
   app.use(express.json());
 
   app.use(routes);
+
+  app.get("/debug-sentry", function mainHandler(req, res) {
+    throw new Error("My first Sentry error!");
+  });
 
   Sentry.setupExpressErrorHandler(app);
 
@@ -34,6 +40,7 @@ function main() {
     if (err.isJoi) {
       return res.status(400).json({ message: err.message });
     }
+    Sentry.captureException(err);
     return res.status(500).json({ message: "Internal server error" });
   });
 

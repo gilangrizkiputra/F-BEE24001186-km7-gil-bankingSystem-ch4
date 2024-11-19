@@ -1,5 +1,6 @@
 import { BankAccount } from "../services/bank_account.js";
 import joi from "joi";
+import * as Sentry from "@sentry/node";
 
 const bankAccountSchema = joi.object({
   bankName: joi.string().required(),
@@ -41,6 +42,7 @@ export class BankAccountController {
         data: bankAccount,
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -64,6 +66,7 @@ export class BankAccountController {
         data: bankAccount,
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -87,6 +90,7 @@ export class BankAccountController {
         data: bankAccount,
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -96,6 +100,7 @@ export class BankAccountController {
       const bankAccounts = await this.bankAccountInstance.getAllBankAccounts();
       res.json(bankAccounts);
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -109,6 +114,7 @@ export class BankAccountController {
         return res.status(404).json({ message: "Bank account not found" });
       res.json(bankAccount);
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -139,6 +145,7 @@ export class BankAccountController {
         data: bankAccount,
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -155,6 +162,7 @@ export class BankAccountController {
         });
       }
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }

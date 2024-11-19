@@ -1,5 +1,6 @@
 import { AuthService } from "../services/auth.js";
 import joi from "joi";
+import * as Sentry from "@sentry/node";
 
 export class AuthController {
   constructor() {
@@ -30,6 +31,7 @@ export class AuthController {
         },
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({
         status: "fail",
         message: error.message,
@@ -48,8 +50,9 @@ export class AuthController {
         },
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({
-        status: "fail",  
+        status: "fail",
         message: error.message,
       });
     }
@@ -59,8 +62,24 @@ export class AuthController {
     const { token } = req.query;
     const { password } = req.body;
 
+    if (!password) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Password is required",
+      });
+    }
+
     try {
       const user = await this.auth.resetPassword(token, password);
+
+      if (res.locals.io) {
+        res.locals.io.emit("password_reset", {
+          message: "Reset password successful",
+        });
+      } else {
+        console.error("Socket.IO instance not found!");
+      }
+
       res.status(200).json({
         status: "success",
         data: {
@@ -68,6 +87,7 @@ export class AuthController {
         },
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({
         status: "fail",
         message: error.message,

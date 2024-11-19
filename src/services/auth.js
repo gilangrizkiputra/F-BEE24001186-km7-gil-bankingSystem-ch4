@@ -2,8 +2,15 @@ import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
-const prisma = new PrismaClient();
+import Handlebars from "handlebars";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const prisma = new PrismaClient();
 dotenv.config();
 
 export class AuthService {
@@ -51,31 +58,41 @@ export class AuthService {
       const user = await this.prisma.user.findUnique({ where: { email } });
 
       if (!user) {
-        throw new AppError("No user found with this email", 404);
+        throw new Error("User not found");
       }
       const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-        expiresIn: "5m",
+        expiresIn: "10m",
       });
 
-      const resetLink = `http://${process.env.APP_URL}/reset-password?token=${token}`;
+      const resetPasswordLink = `${process.env.APP_URL}/api/v1/auth/reset-password?token=${token}`;
+
+      const templatePath = path.resolve(
+        __dirname,
+        "../views/resetPasswordView.html"
+      );
+      const source = fs.readFileSync(templatePath, "utf-8");
+      const template = Handlebars.compile(source);
+      const htmlContent = template({ resetPasswordLink });
 
       await this.transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: email,
-        subject: "Password Reset",
-        html: `<p>You requested a password reset. Click the link below to reset your password:</p>
-               <a href="${resetLink}">${resetLink}</a>`,
+        subject: "Reset Password",
+        html: `<a href="${resetPasswordLink}">${resetPasswordLink}</a>`,
       });
 
-      return { message: "Password reset link sent to your email" };
+      return { message: "Password reset email sent" };
     } catch (error) {
-      console.error("Error during password reset process:", error);
+      console.error("Error when sending password reset email:", error);
       throw error;
     }
   }
 
-  // Reset Password
   async resetPassword(token, newPassword) {
+    if (!token || !newPassword) {
+      throw new Error("Token and new password are required");
+    }
+
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const userId = decoded.userId;
@@ -84,17 +101,14 @@ export class AuthService {
         where: { id: userId },
         data: { password: hashedPassword },
       });
-      return { message: "Password successfully reset" };
+      return { message: "Successfully reset password" };
     } catch (error) {
       console.error("Error when resetting password:", error);
       if (error.name === "TokenExpiredError") {
-        throw new error(
-          "Token expired. Please request a new password reset link.",
-          400
-        );
+        throw new Error("Token has expired.");
       }
       if (error.name === "JsonWebTokenError") {
-        throw new error("Invalid token.", 400);
+        throw new Error("Invalid token.");
       }
       throw error;
     }

@@ -1,6 +1,7 @@
 import { User } from "../services/user.js";
 import joi from "joi";
 import imagekit from "../utils/imagekit.js";
+import * as Sentry from "@sentry/node";
 
 const userSchema = joi.object({
   name: joi.string().min(3).max(30).required(),
@@ -46,6 +47,7 @@ export class UserController {
         data: user,
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -55,6 +57,7 @@ export class UserController {
       const users = await this.userInstance.getAllUsers();
       res.json(users);
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -65,6 +68,7 @@ export class UserController {
       if (!user) return res.status(404).json({ message: "User not found" });
       res.json(user);
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -91,6 +95,7 @@ export class UserController {
         data: user,
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -126,6 +131,7 @@ export class UserController {
         },
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }

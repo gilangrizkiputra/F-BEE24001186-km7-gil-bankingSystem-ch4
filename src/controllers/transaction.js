@@ -1,5 +1,6 @@
 import { Transaction } from "../services/transaction.js";
 import joi from "joi";
+import * as Sentry from "@sentry/node";
 
 const transactionSchema = joi.object({
   sourceAccountId: joi.number().required(),
@@ -30,6 +31,7 @@ export class TransactionController {
         data: transaction,
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -39,6 +41,7 @@ export class TransactionController {
       const transactions = await this.transactionInstance.getAllTransactions();
       res.json(transactions);
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -52,6 +55,7 @@ export class TransactionController {
         return res.status(404).json({ message: "Transaction not found" });
       res.json(transaction);
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
