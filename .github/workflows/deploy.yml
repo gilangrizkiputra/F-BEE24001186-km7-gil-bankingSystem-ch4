@@ -55,8 +55,5 @@ jobs:
     - name: Upload Sentry Sourcemaps
       run: npm run sentry:sourcemaps
 
-    - name: Run Prisma Migrations
-      run: npm run migrate
-
     - name: Deploy to Google App Engine
       run: gcloud app deploy --quiet

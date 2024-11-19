@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://ivory-infinity-441116-s0.as.r.appspot.com/"
+      "url": "https://ivory-infinity-441116-s0.as.r.appspot.com"
     }
   ],
   "components": {
@@ -43,13 +43,13 @@
               "schema": {
                 "type": "object",
                 "example": {
-                  "name": "user3",
-                  "email": "user3@gmail.com",
-                  "password": "user3333",
+                  "name": "user47",
+                  "email": "user47@gmail.com",
+                  "password": "user4747",
                   "profile": {
                     "identityType": "KTP",
-                    "identityNumber": "532434424324",
-                    "address": "JL. address 3"
+                    "identityNumber": "5324344247",
+                    "address": "JL. address 47"
                   }
                 }
               }
@@ -148,6 +148,11 @@
             }
           }
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -216,6 +221,217 @@
                   "status": "success",
                   "data": {
                     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ1c2VyMkBnbWFpbC5jb20iLCJuYW1lIjoidXNlcjIiLCJpYXQiOjE3MzExMjgzMzB9.jYjJyXBXbVEP-4O4Sttabb_vpJBu0_NaTb3qzFfEp2o"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/forget-password": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Forget Password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "email": "email@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 19 Nov 2024 12:29:17 GMT"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"4d-Vn6TQ00SvS6F9H3zBkaxQV/lQIU\""
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "gzip"
+                }
+              },
+              "Via": {
+                "schema": {
+                  "type": "string",
+                  "example": "1.1 google"
+                }
+              },
+              "Alt-Svc": {
+                "schema": {
+                  "type": "string",
+                  "example": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "token": {
+                      "message": "Password reset email sent"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/reset-password": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Reset Password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "password": "newpassword123"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "example": "{{token}}"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 19 Nov 2024 12:30:35 GMT"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"4e-6WDfJuJM4EEfx8l1NNl+a20xuzY\""
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "gzip"
+                }
+              },
+              "Via": {
+                "schema": {
+                  "type": "string",
+                  "example": "1.1 google"
+                }
+              },
+              "Alt-Svc": {
+                "schema": {
+                  "type": "string",
+                  "example": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "user": {
+                      "message": "Successfully reset password"
+                    }
                   }
                 }
               }
