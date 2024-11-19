@@ -67,7 +67,7 @@ export class User {
 
       return newUser;
     } catch (error) {
-      throw new Error("Internal server error");
+      throw new Error(error.message);
     }
   }
 
