@@ -16,9 +16,6 @@ export class User {
     this.password = password;
     this.profile = profile;
     this.transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: parseInt(process.env.EMAIL_PORT, 10),
-      secure: process.env.EMAIL_PORT == 465,
       service: process.env.EMAIL_SERVICE,
       auth: {
         user: process.env.EMAIL_USER,

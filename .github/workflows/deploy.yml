@@ -1,59 +1,57 @@
-name: Deploy to GCP Google App Engine
+# name: Deploy to GCP Google App Engine
 
-on:
-  push:
-    branches:
-      - main 
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: ['18']
+#     strategy:
+#       matrix:
+#         node-version: ['18']
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm install --frozen-lockfile
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v4
 
-    - name: Setup Environment
-      run: |
-        touch .env
-        echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
-        echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
-        echo IMAGEKIT_PUBLIC_KEY=${{ secrets.IMAGEKIT_PUBLIC_KEY }} >> .env
-        echo IMAGEKIT_SECRET_KEY=${{ secrets.IMAGEKIT_SECRET_KEY }} >> .env
-        echo IMAGEKIT_URL_ENDPOINT=${{ secrets.IMAGEKIT_URL_ENDPOINT }} >> .env
-        echo SENTRY_DSN=${{ secrets.SENTRY_DSN }} >> .env
-        echo SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} >> .env
-        echo EMAIL_SERVICE=${{ secrets.EMAIL_SERVICE }} >> .env
-        echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
-        echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
-        echo EMAIL_USER=${{ secrets.EMAIL_USER }} >> .env
-        echo EMAIL_PASS=${{ secrets.EMAIL_PASS }} >> .env
-        echo APP_URL=${{ secrets.APP_URL }} >> .env
+#     - name: Use Node.js ${{ matrix.node-version }}
+#       uses: actions/setup-node@v4
+#       with:
+#         node-version: ${{ matrix.node-version }}
+#         cache: 'npm'
 
-    - name: Google Cloud Auth
-      uses: google-github-actions/auth@v2
-      with: 
-        credentials_json: '${{ secrets.GCP_SA_KEY }}'
-        project_id: '${{ secrets.GCP_PROJECT_ID }}'
+#     - name: Install dependencies
+#       run: npm install --frozen-lockfile
 
-    - name: Set up cloud SDK
-      uses: google-github-actions/setup-gcloud@v2
+#     - name: Setup Environment
+#       run: |
+#         touch .env
+#         echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+#         echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+#         echo IMAGEKIT_PUBLIC_KEY=${{ secrets.IMAGEKIT_PUBLIC_KEY }} >> .env
+#         echo IMAGEKIT_SECRET_KEY=${{ secrets.IMAGEKIT_SECRET_KEY }} >> .env
+#         echo IMAGEKIT_URL_ENDPOINT=${{ secrets.IMAGEKIT_URL_ENDPOINT }} >> .env
+#         echo SENTRY_DSN=${{ secrets.SENTRY_DSN }} >> .env
+#         echo SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} >> .env
+#         echo EMAIL_SERVICE=${{ secrets.EMAIL_SERVICE }} >> .env
+#         echo EMAIL_USER=${{ secrets.EMAIL_USER }} >> .env
+#         echo EMAIL_PASS=${{ secrets.EMAIL_PASS }} >> .env
+#         echo APP_URL=${{ secrets.APP_URL }} >> .env
 
-    - name: Upload Sentry Sourcemaps
-      run: npm run sentry:sourcemaps
+#     - name: Google Cloud Auth
+#       uses: google-github-actions/auth@v2
+#       with:
+#         credentials_json: '${{ secrets.GCP_SA_KEY }}'
+#         project_id: '${{ secrets.GCP_PROJECT_ID }}'
 
-    - name: Deploy to Google App Engine
-      run: gcloud app deploy --quiet
+#     - name: Set up cloud SDK
+#       uses: google-github-actions/setup-gcloud@v2
+
+#     - name: Upload Sentry Sourcemaps
+#       run: npm run sentry:sourcemaps
+
+#     - name: Deploy to Google App Engine
+#       run: gcloud app deploy --quiet
