@@ -4,11 +4,8 @@ import nodemailer from "nodemailer";
 import Handlebars from "handlebars";
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const prisma = new PrismaClient();
 dotenv.config();
 
@@ -48,10 +45,12 @@ export class User {
         },
       });
 
-      const templatePath = path.resolve(
-        __dirname,
-        "../views/registrationView.html"
+      const templatePath = path.join(
+        process.cwd(),
+        "src/views",
+        "registrationView.html"
       );
+
       const source = fs.readFileSync(templatePath, "utf-8");
       const template = Handlebars.compile(source);
       const htmlContent = template();

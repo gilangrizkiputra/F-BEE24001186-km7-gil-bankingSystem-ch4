@@ -5,11 +5,8 @@ import nodemailer from "nodemailer";
 import Handlebars from "handlebars";
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const prisma = new PrismaClient();
 dotenv.config();
 
@@ -66,10 +63,12 @@ export class AuthService {
 
       const resetPasswordLink = `${process.env.APP_URL}/api/v1/auth/reset-password?token=${token}`;
 
-      const templatePath = path.resolve(
-        __dirname,
-        "../views/resetPasswordView.html"
+      const templatePath = path.join(
+        process.cwd(),
+        "src/views",
+        "resetPasswordView.html"
       );
+
       const source = fs.readFileSync(templatePath, "utf-8");
       const template = Handlebars.compile(source);
       const htmlContent = template({ resetPasswordLink });
@@ -78,7 +77,7 @@ export class AuthService {
         from: process.env.EMAIL_USER,
         to: email,
         subject: "Reset Password",
-        html: `<a href="${resetPasswordLink}">${resetPasswordLink}</a>`,
+        html: htmlContent,
       });
 
       return { message: "Password reset email sent" };
