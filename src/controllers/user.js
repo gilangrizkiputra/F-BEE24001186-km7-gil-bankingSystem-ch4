@@ -1,6 +1,7 @@
 import { User } from "../services/user.js";
 import joi from "joi";
 import imagekit from "../utils/imagekit.js";
+import * as Sentry from "@sentry/node";
 
 const userSchema = joi.object({
   name: joi.string().min(3).max(30).required(),
@@ -28,13 +29,25 @@ export class UserController {
 
     const { name, email, password, profile } = req.body;
     const userInstance = new User(name, email, password, profile);
+
     try {
       const user = await userInstance.createUser();
+
+      if (res.locals.io) {
+        res.locals.io.emit("registration_success", {
+          message: "User registered successfully",
+          user: { name, email },
+        });
+      } else {
+        console.error("Socket.IO instance not found!");
+      }
+
       res.status(201).json({
         message: "User registered successfully",
         data: user,
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -44,6 +57,7 @@ export class UserController {
       const users = await this.userInstance.getAllUsers();
       res.json(users);
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -54,6 +68,7 @@ export class UserController {
       if (!user) return res.status(404).json({ message: "User not found" });
       res.json(user);
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -80,6 +95,7 @@ export class UserController {
         data: user,
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -115,6 +131,7 @@ export class UserController {
         },
       });
     } catch (error) {
+      Sentry.captureException(error);
       res.status(500).json({ message: error.message });
     }
   }

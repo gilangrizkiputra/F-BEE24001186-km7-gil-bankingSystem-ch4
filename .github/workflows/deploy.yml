@@ -34,6 +34,8 @@ jobs:
         echo IMAGEKIT_PUBLIC_KEY=${{ secrets.IMAGEKIT_PUBLIC_KEY }} >> .env
         echo IMAGEKIT_SECRET_KEY=${{ secrets.IMAGEKIT_SECRET_KEY }} >> .env
         echo IMAGEKIT_URL_ENDPOINT=${{ secrets.IMAGEKIT_URL_ENDPOINT }} >> .env
+        echo SENTRY_DSN=${{ secrets.SENTRY_DSN }} >> .env
+        echo SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} >> .env
 
     - name: Google Cloud Auth
       uses: google-github-actions/auth@v2
@@ -43,6 +45,12 @@ jobs:
 
     - name: Set up cloud SDK
       uses: google-github-actions/setup-gcloud@v2
+
+    - name: Upload Sentry Sourcemaps
+      run: npm run sentry:sourcemaps
+
+    - name: Run Prisma Migrations
+      run: npm run migrate
 
     - name: Deploy to Google App Engine
       run: gcloud app deploy --quiet

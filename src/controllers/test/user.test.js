@@ -61,6 +61,16 @@ describe("Test_userController", () => {
     });
 
     test("should return 201 and user data when user is created successfully", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+        locals: {
+          io: {
+            emit: jest.fn(),
+          },
+        },
+      };
+
       const mockCreateUser = jest
         .spyOn(User.prototype, "createUser")
         .mockResolvedValue(req.body);
@@ -73,6 +83,11 @@ describe("Test_userController", () => {
         data: req.body,
       });
       expect(mockCreateUser).toHaveBeenCalled();
+
+      expect(res.locals.io.emit).toHaveBeenCalledWith("registration_success", {
+        message: "User registered successfully",
+        user: { name: req.body.name, email: req.body.email },
+      });
     });
   });
 

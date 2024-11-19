@@ -1,6 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
+import Handlebars from "handlebars";
+import fs from "fs";
+import path from "path";
+import dotenv from "dotenv";
+
 const prisma = new PrismaClient();
+dotenv.config();
 
 export class User {
   constructor(name, email, password, profile) {
@@ -8,13 +15,19 @@ export class User {
     this.email = email;
     this.password = password;
     this.profile = profile;
+    this.transporter = nodemailer.createTransport({
+      service: process.env.EMAIL_SERVICE,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
   }
-
   async createUser() {
     try {
       const encryptedPassword = await bcrypt.hash(this.password, 10);
 
-      return await prisma.user.create({
+      const newUser = await prisma.user.create({
         data: {
           name: this.name,
           email: this.email,
@@ -31,6 +44,25 @@ export class User {
           profile: true,
         },
       });
+
+      const templatePath = path.join(
+        process.cwd(),
+        "src/views",
+        "registrationView.html"
+      );
+
+      const source = fs.readFileSync(templatePath, "utf-8");
+      const template = Handlebars.compile(source);
+      const htmlContent = template();
+
+      await this.transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: newUser.email,
+        subject: "Registration Successful",
+        html: htmlContent,
+      });
+
+      return newUser;
     } catch (error) {
       throw new Error("Internal server error");
     }
