@@ -3,7 +3,7 @@ name: Deploy to Google App Engine GCP
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
   deploy:
@@ -16,13 +16,13 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        
+
     - name: Install dependencies
       run: npm install --frozen-lockfile
 
@@ -37,15 +37,13 @@ jobs:
         echo SENTRY_DSN=${{ secrets.SENTRY_DSN }} >> .env
         echo SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} >> .env
         echo EMAIL_SERVICE=${{ secrets.EMAIL_SERVICE }} >> .env
-        echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
-        echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
         echo EMAIL_USER=${{ secrets.EMAIL_USER }} >> .env
         echo EMAIL_PASS=${{ secrets.EMAIL_PASS }} >> .env
         echo APP_URL=${{ secrets.APP_URL }} >> .env
 
     - name: Google Cloud Auth
       uses: google-github-actions/auth@v2
-      with: 
+      with:
         credentials_json: '${{ secrets.GCP_SA_KEY }}'
         project_id: '${{ secrets.GCP_PROJECT_ID }}'
 
